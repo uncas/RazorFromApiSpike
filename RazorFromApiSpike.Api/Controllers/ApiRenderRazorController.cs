@@ -25,7 +25,10 @@ namespace RazorFromApiSpike.Api.Controllers
     {
         public ApiValidateResult Post(ApiValidateRequest request)
         {
-            return new ApiValidateResult(request.IsValid());
+            if (!request.IsValid())
+                return ApiValidateResult.Invalid();
+
+            return ApiValidateResult.Valid(4242);
         }
     }
 
@@ -48,11 +51,21 @@ namespace RazorFromApiSpike.Api.Controllers
 
     public class ApiValidateResult
     {
-        public ApiValidateResult(bool isValid)
+        private ApiValidateResult()
         {
-            IsValid = isValid;
         }
 
         public bool IsValid { get; private set; }
+        public int? Price { get; private set; }
+
+        public static ApiValidateResult Valid(int price)
+        {
+            return new ApiValidateResult {IsValid = true, Price = price};
+        }
+
+        public static ApiValidateResult Invalid()
+        {
+            return new ApiValidateResult();
+        }
     }
 }

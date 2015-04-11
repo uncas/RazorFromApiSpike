@@ -23,7 +23,8 @@ namespace RazorFromApiSpike.Web.Controllers
             if (!validation.IsValid)
                 return Content("Invalid!");
             return Content(
-                string.Join(", ", values.Select(x => string.Format("({0},{1})", x.Key, x.Value))));
+                string.Join(", ", values.Select(x => string.Format("({0},{1})", x.Key, x.Value))) +
+                string.Format("<div>Price: {0}</div>", validation.Price));
         }
 
         private static IEnumerable<KeyValuePair<string, string>> ReadFormValues(FormCollection formCollection)
@@ -56,6 +57,7 @@ namespace RazorFromApiSpike.Web.Controllers
     public class ValidationFromApi
     {
         public bool IsValid { get; set; }
+        public int? Price { get; set; }
     }
 
     public class ViewFromApi
