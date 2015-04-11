@@ -16,9 +16,12 @@ namespace RazorFromApiSpike.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection formCollection)
+        public async Task<ActionResult> Index(FormCollection formCollection)
         {
-            var values = ReadFormValues(formCollection);
+            var values = ReadFormValues(formCollection).ToList();
+            var validation = await PostAsync<ValidationFromApi>(values);
+            if (!validation.IsValid)
+                return Content("Invalid!");
             return Content(
                 string.Join(", ", values.Select(x => string.Format("({0},{1})", x.Key, x.Value))));
         }
@@ -40,6 +43,19 @@ namespace RazorFromApiSpike.Web.Controllers
                 }
             }
         }
+
+        private static async Task<T> PostAsync<T>(IEnumerable<KeyValuePair<string, string>> values)
+        {
+            using (var client = new HttpClient())
+            using (var content = new FormUrlEncodedContent(values))
+            using (var response = await client.PostAsync("http://localhost:63607/api/apivalidate", content))
+                return await response.Content.ReadAsAsync<T>();
+        }
+    }
+
+    public class ValidationFromApi
+    {
+        public bool IsValid { get; set; }
     }
 
     public class ViewFromApi

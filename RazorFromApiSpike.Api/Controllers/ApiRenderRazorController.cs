@@ -4,28 +4,6 @@ using RazorFromApiSpike.Api.Models;
 
 namespace RazorFromApiSpike.Api.Controllers
 {
-    public class ApiRenderRazorViewModel
-    {
-        public ApiRenderRazorViewModel(DateTime date, string postBackUrl)
-        {
-            Date = date;
-            PostBackUrl = postBackUrl;
-        }
-
-        public DateTime Date { get; private set; }
-        public string PostBackUrl { get; private set; }
-    }
-
-    public class ApiRazorResult
-    {
-        public ApiRazorResult(string html)
-        {
-            Html = html;
-        }
-
-        public string Html { get; private set; }
-    }
-
     public class ApiRenderRazorController : ApiController
     {
         // GET api/apirenderrazor/5
@@ -41,5 +19,40 @@ namespace RazorFromApiSpike.Api.Controllers
                 new ApiRenderRazorViewModel(DateTime.Now, "/ViewFromApi"),
                 true);
         }
+    }
+
+    public class ApiValidateController : ApiController
+    {
+        public ApiValidateResult Post(ApiValidateRequest request)
+        {
+            return new ApiValidateResult(request.IsValid());
+        }
+    }
+
+    public class ApiValidateRequest
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
+
+        public bool IsValid()
+        {
+            return IsValid(Name) && IsValid(Address) && IsValid(Country);
+        }
+
+        private static bool IsValid(string input)
+        {
+            return !string.IsNullOrWhiteSpace(input);
+        }
+    }
+
+    public class ApiValidateResult
+    {
+        public ApiValidateResult(bool isValid)
+        {
+            IsValid = isValid;
+        }
+
+        public bool IsValid { get; private set; }
     }
 }

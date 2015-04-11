@@ -1,4 +1,4 @@
-﻿@model RazorFromApiSpike.Api.Controllers.ApiRenderRazorViewModel
+﻿@model RazorFromApiSpike.Api.Models.ApiRenderRazorViewModel
 
 <div>
     Genereret <em>igen</em> fra api @Model.Date.ToLongDateString().
@@ -10,6 +10,15 @@
     </div>
     <div>
         Address: <input type="text" name="address"/>
+    </div>
+    <div>
+        Country:
+    </div>
+    <div>
+        <input type="radio" name="country" value="DK"/> Denmark
+    </div>
+    <div>
+        <input type="radio" name="country" value="NO"/> Norway
     </div>
     <div>
         <input type="submit" value="OK"/>
