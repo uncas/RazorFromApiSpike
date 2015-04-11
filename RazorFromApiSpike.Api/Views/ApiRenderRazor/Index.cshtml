@@ -1,5 +1,17 @@
-﻿@model DateTime
+﻿@model RazorFromApiSpike.Api.Controllers.ApiRenderRazorViewModel
 
 <div>
-    Genereret <em>igen</em> fra api @Model.ToLongDateString().
+    Genereret <em>igen</em> fra api @Model.Date.ToLongDateString().
 </div>
+
+<form action="@Model.PostBackUrl" method="post">
+    <div>
+        Name: <input type="text" name="name"/>
+    </div>
+    <div>
+        Address: <input type="text" name="address"/>
+    </div>
+    <div>
+        <input type="submit" value="OK"/>
+    </div>
+</form>

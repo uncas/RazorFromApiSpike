@@ -4,6 +4,18 @@ using RazorFromApiSpike.Api.Models;
 
 namespace RazorFromApiSpike.Api.Controllers
 {
+    public class ApiRenderRazorViewModel
+    {
+        public ApiRenderRazorViewModel(DateTime date, string postBackUrl)
+        {
+            Date = date;
+            PostBackUrl = postBackUrl;
+        }
+
+        public DateTime Date { get; private set; }
+        public string PostBackUrl { get; private set; }
+    }
+
     public class ApiRazorResult
     {
         public ApiRazorResult(string html)
@@ -26,7 +38,7 @@ namespace RazorFromApiSpike.Api.Controllers
         {
             return ViewRenderer.RenderView(
                 "~/Views/ApiRenderRazor/Index.cshtml",
-                DateTime.Now,
+                new ApiRenderRazorViewModel(DateTime.Now, "/ViewFromApi"),
                 true);
         }
     }
